@@ -1,5 +1,6 @@
 package com.example.huapaiweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.huapaiweather.gson.WeatherBean;
+import com.example.huapaiweather.service.AutoUpdateService;
 import com.example.huapaiweather.util.HttpUtil;
 import com.example.huapaiweather.util.Utility;
 
@@ -202,6 +204,8 @@ public class WeatherActivity extends AppCompatActivity {
         mCarWashText.setText(carWash);
         mSportText.setText(sport);
         mForecastLayout.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
     //初始化控件
