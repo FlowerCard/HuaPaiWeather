@@ -1,6 +1,5 @@
 package com.example.huapaiweather;
 
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -8,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -42,7 +44,9 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView mCarWashText;
     private TextView mSportText;
     private ImageView mBingPicImg;
-    private SwipeRefreshLayout mSwipRefresh;
+    public DrawerLayout mDrawerLayout;
+    public SwipeRefreshLayout mSwipeRefresh;
+    private Button mNavButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,7 @@ public class WeatherActivity extends AppCompatActivity {
             mWeatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(weatherId);
         }
-        mSwipRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 requestWeather(weatherId);
@@ -82,6 +86,14 @@ public class WeatherActivity extends AppCompatActivity {
         } else {
             loadBingPic();
         }
+
+        mNavButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
     }
 
     /**
@@ -97,7 +109,7 @@ public class WeatherActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(WeatherActivity.this, "获取天气信息失败",
                                 Toast.LENGTH_SHORT).show();
-                        mSwipRefresh.setRefreshing(false);
+                        mSwipeRefresh.setRefreshing(false);
                     }
                 });
             }
@@ -119,7 +131,7 @@ public class WeatherActivity extends AppCompatActivity {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        mSwipRefresh.setRefreshing(false);
+                        mSwipeRefresh.setRefreshing(false);
                     }
                 });
             }
@@ -207,6 +219,8 @@ public class WeatherActivity extends AppCompatActivity {
         mCarWashText = (TextView) findViewById(R.id.car_wash_text);
         mSportText = (TextView) findViewById(R.id.sport_text);
         mBingPicImg = (ImageView) findViewById(R.id.bing_pic_img);
-        mSwipRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        mNavButton = (Button) findViewById(R.id.nav_button);
     }
 }
